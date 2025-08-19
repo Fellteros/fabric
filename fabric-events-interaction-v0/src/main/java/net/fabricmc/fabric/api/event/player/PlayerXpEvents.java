@@ -25,7 +25,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 /**
  * Events related to experience changes.
  *
- * <p><i>This implementation is heavily inspired by NeoForge's <a href="https://github.com/neoforged/NeoForge/blob/1.21.x/src/main/java/net/neoforged/neoforge/event/entity/player/PlayerXpEvent.java">PlayerXpEvent</a>.
+ * <p><i>This implementation is heavily inspired by NeoForge's <a href="https://github.com/neoforged/NeoForge/blob/1.21.x/src/main/java/net/neoforged/neoforge/event/entity/player/PlayerXpEvent.java">PlayerXpEvent</a></i>
  */
 public final class PlayerXpEvents {
 	/**
