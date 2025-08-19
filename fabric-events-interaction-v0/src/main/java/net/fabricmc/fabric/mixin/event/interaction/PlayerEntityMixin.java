@@ -20,13 +20,24 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
+import net.fabricmc.fabric.api.event.player.PlayerTossItemCallback;
 import net.fabricmc.fabric.api.event.player.PlayerXpEvents;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin {
+public abstract class PlayerEntityMixin extends LivingEntity {
+	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+		super(entityType, world);
+	}
+
 	@Inject(method = "addExperience", at = @At("HEAD"), cancellable = true)
 	private void fabric_addExperience(int experience, CallbackInfo ci) {
 		boolean processFurther = PlayerXpEvents.XP_CHANGE.invoker().onXpChange((PlayerEntity) (Object) this, experience);
@@ -42,6 +53,15 @@ public class PlayerEntityMixin {
 
 		if (!processFurther) {
 			ci.cancel();
+		}
+	}
+
+	@Inject(method = "dropItem", at = @At("HEAD"), cancellable = true)
+	private void fabric_dropItem(ItemStack stack, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
+		boolean processFurther = PlayerTossItemCallback.EVENT.invoker().dropItem(stack, retainOwnership, (PlayerEntity) (Object) this);
+
+		if (!processFurther) {
+			cir.setReturnValue(null);
 		}
 	}
 }
