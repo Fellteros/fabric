@@ -3,6 +3,7 @@
   "package": "net.fabricmc.fabric.mixin.event.interaction",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityMixin",
     "ExperienceOrbEntityMixin",
     "ItemEntityMixin",
     "PlayerAdvancementTrackerMixin",
