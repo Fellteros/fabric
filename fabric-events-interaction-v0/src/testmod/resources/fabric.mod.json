@@ -13,6 +13,7 @@
       "net.fabricmc.fabric.test.event.interaction.AttackBlockTests",
       "net.fabricmc.fabric.test.event.interaction.PlayerBreakBlockTests",
       "net.fabricmc.fabric.test.event.interaction.PlayerPickItemTests",
+      "net.fabricmc.fabric.test.event.interaction.PlayerPickUpItemTests",
       "net.fabricmc.fabric.test.event.interaction.PlayerTossItemTests",
       "net.fabricmc.fabric.test.event.interaction.UseBlockTests",
       "net.fabricmc.fabric.test.event.interaction.UseEntityTests",
