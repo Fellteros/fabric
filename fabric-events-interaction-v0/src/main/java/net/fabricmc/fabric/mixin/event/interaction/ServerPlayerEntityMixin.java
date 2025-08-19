@@ -20,17 +20,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.api.event.player.PlayerTossItemCallback;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin {
@@ -41,15 +37,6 @@ public class ServerPlayerEntityMixin {
 
 		if (result != ActionResult.PASS) {
 			info.cancel();
-		}
-	}
-
-	@Inject(method = "dropItem", at = @At("HEAD"), cancellable = true)
-	private void fabric_dropItem(ItemStack stack, boolean dropAtSelf, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-		boolean processFurther = PlayerTossItemCallback.EVENT.invoker().dropItem(stack, retainOwnership, (ServerPlayerEntity) (Object) this);
-
-		if (!processFurther) {
-			cir.setReturnValue(null);
 		}
 	}
 }
