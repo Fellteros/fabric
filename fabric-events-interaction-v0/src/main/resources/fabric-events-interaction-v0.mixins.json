@@ -6,6 +6,7 @@
     "EntityMixin",
     "ExperienceOrbEntityMixin",
     "ItemEntityMixin",
+    "ItemStackMixin",
     "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",

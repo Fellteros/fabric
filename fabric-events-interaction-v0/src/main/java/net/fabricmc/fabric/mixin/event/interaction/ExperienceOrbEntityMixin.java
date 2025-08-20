@@ -16,14 +16,19 @@
 
 package net.fabricmc.fabric.mixin.event.interaction;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 
+import net.fabricmc.fabric.api.event.player.ItemDurabilityEvents;
 import net.fabricmc.fabric.api.event.player.PlayerXpEvents;
 
 @Mixin(ExperienceOrbEntity.class)
@@ -34,6 +39,15 @@ public class ExperienceOrbEntityMixin {
 
 		if (!processFurther) {
 			ci.cancel();
+		}
+	}
+
+	@Inject(method = "repairPlayerGears", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;setDamage(I)V"), cancellable = true)
+	private void fabric_repairPlayerGears(ServerPlayerEntity player, int amount, CallbackInfoReturnable<Integer> cir, @Local ItemStack itemStack) {
+		boolean processFurther = ItemDurabilityEvents.REPAIR.invoker().onRepair((ExperienceOrbEntity) (Object) this, itemStack, player, amount);
+
+		if (!processFurther) {
+			cir.setReturnValue(0);
 		}
 	}
 }
