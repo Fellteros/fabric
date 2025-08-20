@@ -27,10 +27,9 @@ public class PlayerPickUpItemTests implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		PlayerPickUpItemCallback.EVENT.register((player, item, originalStack) -> {
-			LOGGER.info(originalStack.toString());
+		PlayerPickUpItemCallback.EVENT.register((player, item) -> {
 			LOGGER.info(item.getStack().toString());
-			LOGGER.info("Player picked up an item; amount changed from {} to {}", originalStack.getCount(), item.getStack().getCount());
+			LOGGER.info("Player picked up an item; stack = '{}'", item.getStack().getCount());
 			return false;
 		});
 	}
