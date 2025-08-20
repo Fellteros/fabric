@@ -18,7 +18,6 @@ package net.fabricmc.fabric.api.event.player;
 
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -37,9 +36,9 @@ public interface PlayerPickUpItemCallback {
 	 * <p>Called only on logical server side.
 	 */
 	Event<PlayerPickUpItemCallback> EVENT = EventFactory.createArrayBacked(PlayerPickUpItemCallback.class,
-			listeners -> ((player, item, originalStack) -> {
+			listeners -> ((player, item) -> {
 				for (PlayerPickUpItemCallback event : listeners) {
-					return event.onSuccessfulPickup(player, item, originalStack);
+					return event.onSuccessfulPickup(player, item);
 				}
 
 				return true;
@@ -50,8 +49,7 @@ public interface PlayerPickUpItemCallback {
 	 *
 	 * @param player the player
 	 * @param item the picked up item
-	 * @param originalStack copy of the original ItemStack before it was added to the player's inventory
 	 * @return {@code true} to allow further processing, {@code false} to cancel any other action
 	 */
-	boolean onSuccessfulPickup(PlayerEntity player, ItemEntity item, ItemStack originalStack);
+	boolean onSuccessfulPickup(PlayerEntity player, ItemEntity item);
 }
